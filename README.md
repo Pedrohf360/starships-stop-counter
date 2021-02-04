@@ -9,7 +9,7 @@
 
 * [About](#about)
 * [Requirements](#requirements)
-* [Starting](#startin)
+* [Starting](#starting)
 * [Structure](#structure)
 ## About
 
