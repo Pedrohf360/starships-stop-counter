@@ -13,7 +13,7 @@ export class SidebarComponent implements OnInit {
 
   public searchForm: FormGroup;
   public searchFormFields: any;
-  @Output() newItemEvent = new EventEmitter<ISpaceship[]>();
+  @Output() newItemEvent = new EventEmitter<number>();
 
   constructor(
     public starWarsService: StarWarsService,

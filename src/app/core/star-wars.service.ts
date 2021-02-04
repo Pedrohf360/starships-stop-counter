@@ -11,7 +11,7 @@ export class StarWarsService extends BaseService {
     super(http);
   }
 
-  getStarshipsData() {
-    return this.doGet('/starships');
+  getStarshipsData(page: number = 1) {
+    return this.doGet(`/starships/?page=${page}`);
   }
 }

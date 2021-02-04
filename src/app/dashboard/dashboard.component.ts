@@ -13,7 +13,10 @@ import { StarWarsService } from '../core/star-wars.service';
 })
 export class DashboardComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'stopsNumber'];
+  userInputMGLT: number;
+  visitedPages: Object = {};
+  currentPage: number = 1;
+  displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'totalStops'];
   dataSource: MatTableDataSource<ISpaceship>;
   public starShipsData = [];
 
@@ -31,11 +34,33 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   setStartshipsData() {
-    this.starWarsService.getStarshipsData()
+    this.starWarsService.getStarshipsData(this.currentPage)
       .then((ships: any) => {
-        this.starShipsData = ships.results;
+        if (!this.visitedPages[this.currentPage]) {
+          this.starShipsData = this.starShipsData.concat(ships.results);
+          this.visitedPages[this.currentPage] = ships.results;
+        }
+
+        this.setDataTotalStops();
         this.initDataSource(this.starShipsData);
       });
+  }
+
+  setDataTotalStops() {
+    if (!this.userInputMGLT) {
+      return;
+    }
+    this.starShipsData = this.starShipsData.map(res => {
+      const totalStops =
+        this.basePageService.getStopsNumberByMGLT(
+          this.userInputMGLT,
+          res.MGLT,
+          res.consumables
+        );
+
+      res.totalStops = totalStops ? totalStops : '0';
+      return res;
+    });
   }
 
   initDataSource(data: ISpaceship[]) {
@@ -53,7 +78,13 @@ export class DashboardComponent implements AfterViewInit {
     }
   }
 
-  getMGLTValue(value: number) {
-    return value;
+  getMGLTValue(inputValueMGLT: number) {
+    this.userInputMGLT = inputValueMGLT;
+    this.setStartshipsData();
+  }
+
+  changePage(page) {
+    this.currentPage = page.pageIndex + 1;
+    this.setStartshipsData()
   }
 }

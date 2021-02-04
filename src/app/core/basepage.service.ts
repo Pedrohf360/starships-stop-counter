@@ -5,7 +5,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 })
 export class BasepageService {
 
-  hoursByDay: number;
+  hoursByDay: number = 24;
   daysByPeriod: Object = {
     day: 1,
     week: 7,
@@ -18,10 +18,9 @@ export class BasepageService {
   getStopsNumberByMGLT(totalDistanceMGLT: number, MGLTShip: number, consumable: string): number {
     const totalHours: number = this.getHours(totalDistanceMGLT, MGLTShip);
     const days: number = this.getDays(totalHours);
-    const stops: number = this.getStops(days, consumable);
-    const totalStops: number = this.getFinalStops(stops, consumable);
+    const totalStops: number = this.getTotalStops(days, consumable);
 
-    return totalStops;
+    return Math.floor(totalStops);
   }
 
   getHours(totalDistance: number, distancePerHour: number): number {
@@ -42,7 +41,7 @@ export class BasepageService {
     return totalHours / this.hoursByDay;
   }
 
-  getStops(days: number, consumable: string): number {
+  getTotalStops(days: number, consumable: string): number {
     if (!days || !consumable) {
       console.error('days or consumable don\'t exist');
       return;
@@ -51,17 +50,6 @@ export class BasepageService {
     const consumableDays = this.getDaysFromConsumable(consumable);
 
     return days / consumableDays;
-  }
-
-  getFinalStops(stopsQuant: number, consumable: string): number {
-    if (!stopsQuant || !consumable) {
-      console.error('stopsQuant or consumable don\'t exist');
-      return;
-    }
-
-    const consumableNumber = this.getNumericValueFromConsumable(consumable);
-
-    return stopsQuant / consumableNumber;
   }
 
   getNumericValueFromConsumable(consumable: string): number {
@@ -81,9 +69,9 @@ export class BasepageService {
       return;
     }
 
-    const consumableSplitted = consumable.split(' ')[1];
+    const consumablePeriod = consumable.split(' ')[1];
 
-    return consumableSplitted[1].replace('s', '');
+    return consumablePeriod.replace('s', '');
   }
 
   getDaysFromConsumable(consumable: string): number {

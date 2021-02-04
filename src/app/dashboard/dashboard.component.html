@@ -1,4 +1,4 @@
-<app-sidebar (sendData)="getMGLTValue($event)"></app-sidebar>
+<app-sidebar (newItemEvent)="getMGLTValue($event)"></app-sidebar>
 
 <div id="table-content">
   <mat-form-field>
@@ -22,9 +22,9 @@
       <td mat-cell *matCellDef="let row"> {{ row.MGLT }} </td>
     </ng-container>
 
-    <ng-container matColumnDef="stopsNumber">
+    <ng-container matColumnDef="totalStops">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Stops Number </th>
-      <td mat-cell *matCellDef="let row"> {{ row.stopsNumber? row.stopsNumber : '---' }} </td>
+      <td mat-cell *matCellDef="let row"> {{ row.totalStops? row.totalStops : '---' }} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -35,5 +35,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[10, 20, 40]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[]" [pageSize]="8" [length]="40" (page)="changePage($event)"></mat-paginator>
 </div>
