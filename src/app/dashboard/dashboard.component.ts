@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BasepageService } from '../core/basepage.service';
 import { IStarship } from '../core/model/starship.interface';
 import { StarWarsService } from '../core/star-wars.service';
 
@@ -24,8 +23,7 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    public starWarsService: StarWarsService,
-    public basePageService: BasepageService
+    public starWarsService: StarWarsService
   ) {
   }
 
@@ -52,7 +50,7 @@ export class DashboardComponent implements AfterViewInit {
     }
     this.starShipsData = this.starShipsData.map(res => {
       const totalStops =
-        this.basePageService.getStopsNumberByMGLT(
+        this.starWarsService.getStopsNumberByMGLT(
           this.userInputMGLT,
           res.MGLT,
           res.consumables
@@ -87,7 +85,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   changePage(page) {
-    this.currentPage = page && page.pageIndex? page.pageIndex + 1 : page;
+    this.currentPage = page && page.pageIndex ? page.pageIndex + 1 : page;
     this.setStartshipsData()
   }
 }
