@@ -1,4 +1,4 @@
-export interface ISpaceship {
+export interface IStarship {
     name: string;
     consumables: string;
     MGLT: number;

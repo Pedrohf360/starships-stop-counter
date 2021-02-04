@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StarWarsService } from '../core/star-wars.service';
 import { Output, EventEmitter } from '@angular/core';
-import { ISpaceship } from '../core/model/spaceship.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +12,7 @@ export class SidebarComponent implements OnInit {
 
   public searchForm: FormGroup;
   public searchFormFields: any;
-  @Output() newItemEvent = new EventEmitter<number>();
+  @Output() searchEvent = new EventEmitter<number>();
 
   constructor(
     public starWarsService: StarWarsService,
@@ -27,7 +26,7 @@ export class SidebarComponent implements OnInit {
     this.searchForm = this.fb.group(this.searchFormFields);
   }
 
-  sendData() {
+  sendOuputValue() {
     if (!this.searchForm.value.MGLT) {
       return;
     }
@@ -35,6 +34,6 @@ export class SidebarComponent implements OnInit {
     let MGLTValue;
     MGLTValue = this.searchForm.value.MGLT;
 
-    this.newItemEvent.emit(MGLTValue);
+    this.searchEvent.emit(MGLTValue);
   }
 }

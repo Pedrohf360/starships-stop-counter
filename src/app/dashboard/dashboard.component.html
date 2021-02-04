@@ -1,10 +1,12 @@
-<app-sidebar (newItemEvent)="getMGLTValue($event)"></app-sidebar>
+<app-sidebar (searchEvent)="getMGLTValue($event)"></app-sidebar>
 
 <div id="table-content">
+
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex: Millennium Falcon" #input>
   </mat-form-field>
+
   <table mat-table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="name">
@@ -35,5 +37,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[]" [pageSize]="8" [length]="40" (page)="changePage($event)"></mat-paginator>
+  <mat-paginator [pageSize]="8" [length]="40" (page)="changePage($event)"></mat-paginator>
 </div>

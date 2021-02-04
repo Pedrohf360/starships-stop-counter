@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BasepageService } from '../core/basepage.service';
-import { ISpaceship } from '../core/model/spaceship.interface';
+import { IStarship } from '../core/model/starship.interface';
 import { StarWarsService } from '../core/star-wars.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class DashboardComponent implements AfterViewInit {
   visitedPages: Object = {};
   currentPage: number = 1;
   displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'totalStops'];
-  dataSource: MatTableDataSource<ISpaceship>;
+  dataSource: MatTableDataSource<IStarship>;
   public starShipsData = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -63,7 +63,7 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
 
-  initDataSource(data: ISpaceship[]) {
+  initDataSource(data: IStarship[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -79,12 +79,15 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   getMGLTValue(inputValueMGLT: number) {
+    this.starShipsData = [];
     this.userInputMGLT = inputValueMGLT;
-    this.setStartshipsData();
+    this.visitedPages = {};
+    this.dataSource.paginator.firstPage();
+    this.changePage(1);
   }
 
   changePage(page) {
-    this.currentPage = page.pageIndex + 1;
+    this.currentPage = page && page.pageIndex? page.pageIndex + 1 : page;
     this.setStartshipsData()
   }
 }
