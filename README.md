@@ -13,6 +13,8 @@
 * [Structure](#structure)
 ## About
 
+Live Demo: https://pedrohf360.github.io/starships-stop-counter/
+
 The main objective of this project is count the stops number of each Star Wars ship, given a distance in MGLT.
 
 ## Requirements
