@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "spaceships-project": {
+    "starships-project": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/spaceships-project",
+            "outputPath": "dist/starships-project",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "spaceships-project:build"
+            "browserTarget": "starships-project:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "spaceships-project:build:production"
+              "browserTarget": "starships-project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "spaceships-project:build"
+            "browserTarget": "starships-project:build"
           }
         },
         "test": {
@@ -115,16 +115,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "spaceships-project:serve"
+            "devServerTarget": "starships-project:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "spaceships-project:serve:production"
+              "devServerTarget": "starships-project:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "spaceships-project"
+  "defaultProject": "starships-project"
 }
