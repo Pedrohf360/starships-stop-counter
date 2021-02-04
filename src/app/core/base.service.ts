@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class BaseService {
 
-  private apiUrl: string = 'swapi.dev/api/';
+  public apiUrl: string = 'https://swapi.dev/api';
 
   constructor(public http: HttpClient) { }
 

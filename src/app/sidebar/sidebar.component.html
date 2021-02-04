@@ -1,0 +1,7 @@
+<div fxLayout="column" [formGroup]="searchForm">
+    <mat-form-field>
+        <input matInput placeholder="MGLT Distance" formControlName="MGLT" type="number" #newItem/>
+    </mat-form-field>
+
+    <button mat-raised-button (click)="sendData()">Search</button>
+</div>

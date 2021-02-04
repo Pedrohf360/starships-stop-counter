@@ -1,0 +1,26 @@
+:host {
+    background: black;
+    padding: 30px;
+}
+
+#table-content {
+    background-color: rgb(240, 240, 240);
+    padding: 15px;
+    border-radius: 5px;
+    margin-left: 30px;
+    width: 100%;
+    overflow: scroll;
+
+    table {
+        width: 100%;
+    }
+
+    td, th {
+        width: 25%;
+      }
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
