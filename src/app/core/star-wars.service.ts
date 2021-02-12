@@ -33,7 +33,6 @@ export class StarWarsService extends BaseService {
 
   getHours(totalDistance: number, distancePerHour: number): number {
     if (!totalDistance || !distancePerHour) {
-      console.error('days or consumable don\'t exist');
       return;
     }
 
@@ -42,7 +41,6 @@ export class StarWarsService extends BaseService {
 
   getDays(totalHours: number): number {
     if (!totalHours) {
-      console.error('totalHours or consumable don\'t exist');
       return;
     }
 
@@ -51,7 +49,6 @@ export class StarWarsService extends BaseService {
 
   getTotalStops(days: number, consumable: string): number {
     if (!days || !consumable) {
-      console.error('days or consumable don\'t exist');
       return;
     }
 
@@ -62,7 +59,6 @@ export class StarWarsService extends BaseService {
 
   getNumericValueFromConsumable(consumable: string): number {
     if (!consumable) {
-      console.error('consumable don\'t exist');
       return;
     }
 
@@ -73,7 +69,6 @@ export class StarWarsService extends BaseService {
 
   getPeriodValueFromConsumable(consumable: string): string {
     if (!consumable) {
-      console.error('consumable don\'t exist');
       return;
     }
 
@@ -84,7 +79,6 @@ export class StarWarsService extends BaseService {
 
   getDaysFromConsumable(consumable: string): number {
     if (!consumable) {
-      console.error('consumable don\'t exist');
       return;
     }
 
