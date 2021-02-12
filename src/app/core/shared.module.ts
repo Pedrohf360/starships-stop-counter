@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StarWarsService } from './star-wars.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,12 +18,12 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatTableModule, MatPaginatorModule, ReactiveFormsModule, MatIconModule,
+    MatTableModule, ReactiveFormsModule, MatIconModule,
     FlexLayoutModule
   ],
   exports: [
     MatSnackBarModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatTableModule, MatPaginatorModule, ReactiveFormsModule, MatIconModule,
+    MatTableModule, ReactiveFormsModule, MatIconModule,
     FlexLayoutModule
   ],
   providers: [StarWarsService]
