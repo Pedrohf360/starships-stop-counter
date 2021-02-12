@@ -7,7 +7,7 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex: Millennium Falcon" #input>
   </mat-form-field>
 
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>

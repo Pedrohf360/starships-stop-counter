@@ -31,14 +31,17 @@ mat-form-field {
     display: flex;
     align-self: flex-end;
     justify-content: space-between;
-    width: 30%;
+    width: 35%;
     font-size: 14px;
     color: #8e8888;
     margin-top: 20px;
     
     #arrows {
       display: flex;
+      justify-content: space-between;
+      width: 18%;
       flex-direction: row;
+      user-select: none;
 
       #left-arrow, #right-arrow:hover {
         cursor: pointer;
