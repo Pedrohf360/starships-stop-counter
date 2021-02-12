@@ -23,6 +23,10 @@ export class StarWarsService extends BaseService {
     return this.doGet(`/starships/?page=${page}`);
   }
 
+  searchStarships(starshipModelName: string, page: number = 1) {
+    return this.doGet(`/starships/?search=${starshipModelName}&page=${page}`);
+  }
+
   getStopsNumberByMGLT(totalDistanceMGLT: number, MGLTShip: number, consumable: string): number {
     const totalHours: number = this.getHours(totalDistanceMGLT, MGLTShip);
     const days: number = this.getDays(totalHours);

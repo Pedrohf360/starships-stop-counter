@@ -4,7 +4,7 @@
 
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex: Millennium Falcon" #input>
+    <input matInput [formControl]="queryField" placeholder="Ex: Millennium Falcon" #input>
   </mat-form-field>
 
   <table mat-table [dataSource]="dataSource">
@@ -48,11 +48,11 @@
 
     <div id="arrows">
       <div id="left-arrow">
-        <mat-icon [class.disabled-arrow]="!existsPreviousPage" (click)="existsPreviousPage? previousPage() : ''">chevron_left</mat-icon>
+        <mat-icon [class.disabled-arrow]="!existsPreviousPage" (click)="existsPreviousPage? changePage('prev') : ''">chevron_left</mat-icon>
       </div>
 
       <div id="right-arrow">
-        <mat-icon [class.disabled-arrow]="!existsNextPage" (click)="existsNextPage? nextPage() : ''">chevron_right</mat-icon>
+        <mat-icon [class.disabled-arrow]="!existsNextPage" (click)="existsNextPage? changePage('next') : ''">chevron_right</mat-icon>
       </div>
     </div>
   </div>

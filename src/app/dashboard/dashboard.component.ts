@@ -1,7 +1,9 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { IStarship } from '../core/model/starship.interface';
 import { StarWarsService } from '../core/star-wars.service';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,6 +12,7 @@ import { StarWarsService } from '../core/star-wars.service';
 export class DashboardComponent implements AfterViewInit {
 
   userInputMGLT: number;
+  searchChangeEmitter: EventEmitter<string> = new EventEmitter();
 
   displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'totalStops'];
   dataSource: MatTableDataSource<IStarship>;
@@ -24,6 +27,8 @@ export class DashboardComponent implements AfterViewInit {
   relativePageText: string;
   isChangingPage: boolean;
 
+  queryField: FormControl = new FormControl();
+
   constructor(
     public starWarsService: StarWarsService
   ) {
@@ -31,6 +36,12 @@ export class DashboardComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.setStartshipsData();
+
+    this.queryField.valueChanges
+      .pipe(debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe((searchText: string) => this.applyFilter(searchText));
   }
 
   setStartshipsData() {
@@ -71,17 +82,27 @@ export class DashboardComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(data);
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  async applyFilter(starshipModelName: string) {
+    this.starWarsService.searchStarships(starshipModelName, this.currentPage)
+      .then((res: any) => {
+        this.existsNextPage = typeof res.next === 'string';
+        this.existsPreviousPage = typeof res.previous === 'string';
 
-    this.setPage(1);
+        this.totalLength = res.count;
+        this.starShipsData = res.results;
+
+        this.setDataTotalStops();
+        this.initDataSource(this.starShipsData);
+        this.setRelativePageString();
+        this.isChangingPage = false;
+      });
   }
 
   getMGLTValue(inputValueMGLT: number) {
     this.starShipsData = [];
     this.userInputMGLT = inputValueMGLT;
 
+    this.queryField.setValue('');
     this.setPage(1);
   }
 
@@ -94,23 +115,32 @@ export class DashboardComponent implements AfterViewInit {
     this.setStartshipsData()
   }
 
-  previousPage() {
-    if (this.isChangingPage || !this.existsPreviousPage) {
-      return;
+  canChangePage(direction: string): boolean {
+    if (this.isChangingPage) {
+      return false;
     }
 
-    this.isChangingPage = true;
-    this.currentPage--;
-    this.setStartshipsData()
+    return direction === 'prev' ? this.existsPreviousPage : this.existsNextPage;
   }
 
-  nextPage() {
-    if (this.isChangingPage || !this.existsNextPage) {
+  changePage(direction: string) {
+    if (!this.canChangePage(direction)) {
       return;
     }
 
+    if (direction === 'prev') {
+      this.currentPage--;
+    } else {
+      this.currentPage++;
+    }
+
     this.isChangingPage = true;
-    this.currentPage++;
+
+    if (this.queryField.value) {
+      this.applyFilter(this.queryField.value);
+      return;
+    }
+
     this.setStartshipsData()
   }
 
