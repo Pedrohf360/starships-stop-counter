@@ -14,6 +14,8 @@ export class DashboardComponent implements AfterViewInit {
 
   userInputMGLT: number;
   visitedPages: Object = {};
+  pageSizeLimit: number = 10;
+
   currentPage: number = 1;
   displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'totalStops'];
   dataSource: MatTableDataSource<IStarship>;
@@ -31,8 +33,8 @@ export class DashboardComponent implements AfterViewInit {
     this.setStartshipsData();
   }
 
-  setStartshipsData() {
-    this.starWarsService.getStarshipsData(this.currentPage)
+  async setStartshipsData() {
+    await this.starWarsService.getStarshipsData(this.currentPage)
       .then((ships: any) => {
         if (!this.visitedPages[this.currentPage]) {
           this.starShipsData = this.starShipsData.concat(ships.results);
@@ -62,8 +64,9 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   initDataSource(data: IStarship[]) {
-    this.dataSource = new MatTableDataSource(data);
+    this.dataSource = new MatTableDataSource();
     this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
   }
 

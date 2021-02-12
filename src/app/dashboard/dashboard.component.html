@@ -37,5 +37,6 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSize]="8" [length]="40" (page)="changePage($event)"></mat-paginator>
+  <mat-paginator [pageSize]="pageSizeLimit" [length]="40" [disabled]="false" (page)="changePage($event)">
+  </mat-paginator>
 </div>
