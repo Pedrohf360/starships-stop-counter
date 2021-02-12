@@ -4,6 +4,8 @@
 }
 
 #table-content {
+    display: flex;
+    flex-direction: column;
     background-color: rgb(240, 240, 240);
     padding: 15px;
     border-radius: 5px;
@@ -20,7 +22,30 @@
       }
 }
 
-.mat-form-field {
+mat-form-field {
     font-size: 14px;
     width: 100%;
   }
+
+  #paginator {
+    display: flex;
+    align-self: flex-end;
+    justify-content: space-between;
+    width: 30%;
+    font-size: 14px;
+    color: #8e8888;
+    margin-top: 20px;
+    
+    #arrows {
+      display: flex;
+      flex-direction: row;
+
+      #left-arrow, #right-arrow:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .disabled-arrow {
+    color: #b8b8b8;
+}

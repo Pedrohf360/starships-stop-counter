@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IStarship } from '../core/model/starship.interface';
 import { StarWarsService } from '../core/star-wars.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,15 +15,22 @@ export class DashboardComponent implements AfterViewInit {
 
   userInputMGLT: number;
   visitedPages: Object = {};
-  pageSizeLimit: number = 10;
 
-  currentPage: number = 1;
   displayedColumns: string[] = ['name', 'consumables', 'MGLT', 'totalStops'];
   dataSource: MatTableDataSource<IStarship>;
   public starShipsData = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
+  existsNextPage: boolean = true;
+  existsPreviousPage: boolean = false;
+  totalLength: number;
+
+  relativePageText: string;
+  isChangingPage: boolean;
 
   constructor(
     public starWarsService: StarWarsService
@@ -33,16 +41,25 @@ export class DashboardComponent implements AfterViewInit {
     this.setStartshipsData();
   }
 
-  async setStartshipsData() {
-    await this.starWarsService.getStarshipsData(this.currentPage)
-      .then((ships: any) => {
+  setStartshipsData() {
+    this.isChangingPage = true;
+
+    this.starWarsService.getStarshipsData(this.currentPage)
+      .then((res: any) => {
+        this.existsNextPage = typeof res.next === 'string';
+        this.existsPreviousPage = typeof res.previous === 'string';
+
+        this.totalLength = res.count;
         if (!this.visitedPages[this.currentPage]) {
-          this.starShipsData = this.starShipsData.concat(ships.results);
-          this.visitedPages[this.currentPage] = ships.results;
+          this.visitedPages[this.currentPage] = res.results;
         }
+
+        this.starShipsData = this.visitedPages[this.currentPage];
 
         this.setDataTotalStops();
         this.initDataSource(this.starShipsData);
+        this.setRelativePageString();
+        this.isChangingPage = false;
       });
   }
 
@@ -84,11 +101,52 @@ export class DashboardComponent implements AfterViewInit {
     this.userInputMGLT = inputValueMGLT;
     this.visitedPages = {};
     this.dataSource.paginator.firstPage();
-    this.changePage(1);
+    this.setPage(1);
   }
 
-  changePage(page) {
-    this.currentPage = page && page.pageIndex ? page.pageIndex + 1 : page;
+  setPage(pageNumber: number) {
+    if (!this.isChangePageAvailable()) {
+      return;
+    }
+    this.currentPage = pageNumber;
     this.setStartshipsData()
+  }
+
+  isChangePageAvailable() {
+    if (this.isChangingPage || !this.existsPreviousPage) {
+      return false;
+    }
+    return true;
+  }
+
+  changePageValidate() {
+    if (!this.isChangePageAvailable()) {
+      return;
+    }
+  }
+
+  previousPage() {
+    if (!this.isChangePageAvailable()) {
+      return;
+    }
+
+    this.currentPage--;
+    this.setStartshipsData()
+  }
+
+  nextPage() {
+    if (!this.existsNextPage) {
+      return;
+    }
+
+    this.currentPage++;
+    this.setStartshipsData()
+  }
+
+  setRelativePageString() {
+    const fromNumberLine: number = !this.existsPreviousPage ? 1 : ((this.currentPage - 1) * this.itemsPerPage + 1);
+    const toNumberLine: number = this.existsNextPage ? this.itemsPerPage * this.currentPage : this.totalLength;
+
+    this.relativePageText = `${fromNumberLine}-${toNumberLine} of ${this.totalLength}`;
   }
 }

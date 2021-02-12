@@ -9,7 +9,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PaginatorComponent } from './paginator/paginator.component';
 
 const routes: Routes = [
   {
@@ -23,8 +22,7 @@ const routes: Routes = [
     HeaderComponent,
     MainLayoutComponent,
     DashboardComponent,
-    SidebarComponent,
-    PaginatorComponent
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

@@ -37,6 +37,23 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSize]="pageSizeLimit" [length]="40" [disabled]="false" (page)="changePage($event)">
-  </mat-paginator>
+  <div id="paginator" *ngIf="currentPage && itemsPerPage && totalLength">
+    <span *ngIf="itemsPerPage">
+      Items per page: {{ itemsPerPage }}
+    </span>
+
+    <span>
+      {{ relativePageText }}
+    </span>
+
+    <div id="arrows">
+      <div id="left-arrow">
+        <mat-icon [class.disabled-arrow]="!existsPreviousPage" (click)="existsPreviousPage? previousPage() : ''">chevron_left</mat-icon>
+      </div>
+
+      <div id="right-arrow">
+        <mat-icon [class.disabled-arrow]="!existsNextPage" (click)="existsNextPage? nextPage() : ''">chevron_right</mat-icon>
+      </div>
+    </div>
+  </div>
 </div>

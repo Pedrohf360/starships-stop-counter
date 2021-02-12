@@ -11,7 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StarWarsService } from './star-wars.service';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [],
   imports: [
@@ -19,12 +19,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     BrowserAnimationsModule,
     MatSnackBarModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatTableModule, MatPaginatorModule, ReactiveFormsModule,
+    MatTableModule, MatPaginatorModule, ReactiveFormsModule, MatIconModule,
     FlexLayoutModule
   ],
   exports: [
     MatSnackBarModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatTableModule, MatPaginatorModule, ReactiveFormsModule,
+    MatTableModule, MatPaginatorModule, ReactiveFormsModule, MatIconModule,
     FlexLayoutModule
   ],
   providers: [StarWarsService]
